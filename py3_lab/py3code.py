@@ -26,7 +26,8 @@ def force(*, mass, acceleration):
 
 
 def quad(*, a, b, c):
-    sqrt = (b**2 - 4*a*c)**0.5
+    import cmath
+    sqrt = cmath.sqrt(b**2 - 4*a*c)
     x1 = (-b + sqrt)/(2*a)
     x2 = (-b - sqrt)/(2*a)
     return x1, x2
