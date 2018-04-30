@@ -4,14 +4,14 @@ def test_nums():
     # (whole) floors have you walked up? Store the result
     # in ``floors``.
     # ***********************************
-
+    floors = 102 // 7
     assert hex(floors) == '0xe'
 
     # What percentage of the floors have you climbed?
     # Store the result as a string ("53.2%") with 1
     # decimal of precision in variable ``per``
     # ***********************************
-
+    per = f'{7/102:.1%}'
     assert per[::-1] == '%9.6'
 
 
@@ -21,6 +21,7 @@ def test_nums():
     # result in ``coins``.
     # ***********************************
     satoshis = (2**64) - 1
+    coins = satoshis // 3
     
     assert coins * 3 == satoshis
 
@@ -29,7 +30,7 @@ def test_nums():
     # citizen get? Store the result in ``us_coins``
     # (Use _ to make population easier to read)
     # ***********************************
-    
+    us_coins =  satoshis // 326_979_681    
     assert us_coins == 56_415_566_916
     
 
@@ -38,7 +39,8 @@ def test_nums():
     # of each pie. Store the result in
     # ``pumpkin`` and ``apple``
     # ***********************************
-
+    pumpkin = round(0.5)
+    apple = round(1.5)
     assert pumpkin + apple == 2
     
 
