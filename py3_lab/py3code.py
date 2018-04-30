@@ -1,5 +1,24 @@
 # place super_test.py code here
 
+class Character:
+    def speed(self): return 2
+    def jump(self): return 2
+    def power(self): return 2
+
+class Mario(Character):
+    def speed(self): return super().speed() + 2
+    def jump(self): return super().jump() + 2
+    def power(self): return super().power() + 2
+
+class Luigi(Character):
+    def speed(self): return super().speed() + 1 
+    def jump(self): return super().jump() + 3 
+    def power(self): return super().power() + 1 
+
+class Toad(Character):
+    def speed(self): return super().speed() + 3 
+    def jump(self): return super().jump()
+    def power(self): return super().power() + 3 
 
 # place keyword_test.py code here
 def force(*, mass, acceleration):
