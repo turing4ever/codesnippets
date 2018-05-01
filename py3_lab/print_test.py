@@ -17,7 +17,7 @@ def test_print1():
     # (and newline at the end)
     #***********************************
     nums = list(range(10, -1, -1))
-
+    print(*nums, sep=' ',  end='\n')
     assert out.getvalue() == '10 9 8 7 6 5 4 3 2 1 0\n'
 
 
@@ -29,7 +29,7 @@ def test_print2():
     # (and no newline at the end)
     #***********************************
     nums = list(range(10, -1, -1))
-
+    print(*nums, sep='-*-', end='')
     assert out.getvalue() == '10-*-9-*-8-*-7-*-6-*-5-*-4-*-3-*-2-*-1-*-0'
 
 
