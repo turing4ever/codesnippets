@@ -23,7 +23,11 @@ def test_enum():
     # (Normally these are created
     # at the global level)
     # ***************************************
-
+    from enum import Enum
+    class Color(Enum):
+        red = 1
+        green = 2
+        blue = 3
     assert Color.red in Color
     with pytest.raises(AttributeError):
         Color.brown
@@ -31,6 +35,14 @@ def test_enum():
     # Refactor ``get_rgb`` to use the Color
     # enumeration.
     # ***************************************
+    def get_rgb(color):
+        if color == Color.red:
+            return 255, 0, 0
+        if color == Color.green:
+            return 0, 255, 0
+        if color == Color.blue:
+            return 0, 0, 255
+
     assert get_rgb(Color.red) == (255, 0, 0)
 
     # Create an enumeration, ``Pet``, that
@@ -38,7 +50,8 @@ def test_enum():
     # as the different members. Call the
     # ``Enum`` class to create it
     # ***************************************
- 
+    # Pet = Enum('Pet', 'dog cat fish') 
+    Pet = Enum('Pet', ['dog', 'cat', 'fish'])
     assert {x.name for x in Pet} == \
         {'cat', 'dog', 'fish'} 
 
