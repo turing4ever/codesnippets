@@ -1,5 +1,6 @@
 import dis
 import pytest
+import asyncio
 
 def test_async_import():
     # use pip to install pytest-asyncio
@@ -14,6 +15,11 @@ async def test_async():
     # adds them, then calls ``asyncio.sleep(0)``.
     # Finally it returns the sum.
     # ************************************
+    async def add2(a1, a2):
+        sum = a1 + a2
+        await asyncio.sleep(0)
+        return sum
+
     res = await add2(2, 3)
     assert res == 5
     code = dis.Bytecode(add2)
@@ -28,6 +34,11 @@ async def test_async():
     # values.
     # (Make sure you put an await call in it)
     # ************************************
+    async def avg(coroutines, size):
+        sum = 0
+        for c in coroutines[:size]:
+            sum += await c
+        return sum/size
 
     res3 = await avg([add2(1, 3),
                      add2(1, 4),
