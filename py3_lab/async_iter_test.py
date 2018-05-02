@@ -1,7 +1,25 @@
 import time
-
+import asyncio
 import pytest
 
+
+class Countdown:
+    def __init__(self, count, delay):
+        self.count = count
+        self.delay = delay
+        self.val = count
+    
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        if self.val < 0: 
+            raise StopAsyncIteration
+        n = self.val
+        self.val -= 1
+        if n < self.count:
+           await asyncio.sleep(self.delay)
+        return n 
 
 
 @pytest.mark.asyncio
@@ -28,8 +46,6 @@ async def test_async():
     assert val == 0
     with pytest.raises(StopAsyncIteration):
         val = await co.__anext__()
-
-
 
 if __name__ == '__main__':
     import pytest
