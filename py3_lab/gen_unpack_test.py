@@ -14,7 +14,7 @@ def test_unpack():
                   'BCH': 1_439,
                   'ETH': 993}
 
-
+    new_value = { **coin_value, 'BCH': 1650, 'ETH': 1055} 
     assert new_value == {'BCH': 1650, 'BTC': 11157, 'ETH': 1055}
 
     # Create a set of the keys from
@@ -22,7 +22,7 @@ def test_unpack():
     # result in ``coins``
     # ***********************************
 
-
+    coins = {*new_value,}
     assert coins == {'BCH', 'BTC', 'ETH'} 
 
 
@@ -31,7 +31,7 @@ def test_unpack():
     # in ``all_coins``
     # ***********************************
     other_coins = 'DOGE', 'XRP', 'LTC'
-
+    all_coins = [*new_value, *other_coins]
 
     assert isinstance(all_coins, list)
     assert sorted(all_coins) == ['BCH', 'BTC', 'DOGE', 'ETH', 'LTC', 'XRP'] 
