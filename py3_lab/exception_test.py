@@ -5,6 +5,8 @@ def test_exception():
     # ``ColorError``, that subclasses
     # ``RuntimeError``.
     # ***************************************
+    class ColorError(RuntimeError):
+        pass
 
     assert isinstance(ColorError(), RuntimeError)
 
@@ -19,6 +21,11 @@ def test_exception():
     # exception chaining to wrap the
     # error with ``ColorError``.
     # ***************************************
+    def err_wrap(fn, *args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except Exception as e:
+            raise ColorError from e
 
     assert err_wrap(lambda x, y: x+y, 2, 3) == 5
 
