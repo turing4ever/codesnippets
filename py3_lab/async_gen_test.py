@@ -1,8 +1,12 @@
 import time
-
+import asyncio
 import pytest
 
-
+async def countdown(count, delay):
+    for n in range(count, -1, -1):
+        yield n
+        if n:
+            await asyncio.sleep(delay)
 
 @pytest.mark.asyncio
 async def test_async():
@@ -13,6 +17,7 @@ async def test_async():
     # and including 0. It waits for ``delay``
     # seconds before returning the next value.
     # ************************************
+
     co = countdown(2, 1)
     aiter = co.__aiter__()
     now = time.time()
