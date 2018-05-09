@@ -1,0 +1,5 @@
+print(True, True==1)
+print(False, False==0)
+print(int(True), int(False))
+print(bool(1), bool(5), bool(-5), bool(0), bool(0.1), bool(-0.1))
+print(bool([]), bool({}), bool(set()), bool(()))
