@@ -7,7 +7,7 @@ def test_other():
     # ***********************************
 
     vals = range(42, 2_000_000, 32)
-
+    hun = vals[100]
     assert hex(hun) == '0xcaa'
 
     def fn(x):
@@ -19,7 +19,7 @@ def test_other():
     # ``fn`` to ``vals`` using ``map``.
     # Store the result in ``hun_fn``.
     # ***********************************
-
+    hun_fn = list(map(fn, vals))[99]
     assert chr(hun_fn) == 'ಔ'
 
     # Sorting
@@ -31,7 +31,7 @@ def test_other():
     # parameter)
     # ***********************************
     nums = [42, -1, '24', 99.9]
-
+    ordered = sorted(nums, key=lambda x: float(x))
 
     assert ordered == [-1, '24', 42, 99.9]
 
@@ -42,7 +42,7 @@ def test_other():
     # ***********************************
     num = 42
     x = 38
-
+    sq_sum = sum([int(x)**2 for x in nums]) 
     assert sq_sum == 12142
     assert x == 38
     assert num == 42
