@@ -1,5 +1,5 @@
 -- get all udfs
-select * from pg_proc where proname ilike 'f_%';
+select * from pg_proc where proname ilike 'f\\_%';
 
 create or replace function f_sql_percentage (float)
   returns text
