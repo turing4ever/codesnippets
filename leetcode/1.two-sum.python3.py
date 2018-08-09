@@ -5,7 +5,10 @@ class Solution:
         :type target: int
         :rtype: List[int]
         """
-        for i in range(0, len(nums)):
-            for j in range(i+1, len(nums)):
-                if target == (nums[i] + nums[j]):
-                    return [i, j] 
+        diff = {}
+        for i in range(len(nums)):
+            if (target - nums[i]) in diff:
+                return [diff[target-nums[i]], i]
+            elif nums[i] not in diff:
+                diff[nums[i]] = i
+
