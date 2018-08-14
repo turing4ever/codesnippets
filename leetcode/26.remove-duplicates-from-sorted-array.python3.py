@@ -12,7 +12,5 @@ class Solution:
                 if nums[tail] == nums[i-1]:
                     nums[tail+1] = nums[i]
                 tail += 1
-            else:
-                pass # tail doesn't move
         return tail+1
 
