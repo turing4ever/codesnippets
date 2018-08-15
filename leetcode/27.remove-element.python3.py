@@ -5,11 +5,19 @@ class Solution:
         :type val: int
         :rtype: int
         """
-        tmp = []
-        for i in nums:
-            if i != val:
-                tmp.append(i)
-        for j in range(len(tmp)):
-            nums[j] = tmp[j]
-        return len(tmp)
-        
+        if len(nums) == 0:
+            return 0
+        head = 0 
+        tail = len(nums) - 1
+        while head <= tail:
+            while tail >= 0 and nums[tail] == val:
+                tail -= 1
+            while head <= len(nums)-1 and nums[head] != val:
+                head += 1       
+            if head > tail:
+                break
+            if nums[head] == val and nums[tail] != val:
+                nums[head], nums[tail] = nums[tail], nums[head]
+
+        return head
+                
