@@ -4,10 +4,7 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        #if len(nums) == 0:
-        #    return 
-        max_all = max_tmp = nums[0]
-        for n in nums[1:]:
-            max_tmp = max(n, n+max_tmp)
-            max_all = max(max_all, max_tmp)
-        return max_all
+        for i in range(1, len(nums)):
+            if nums[i-1] > 0:
+                nums[i] += nums[i-1]
+        return max(nums)
