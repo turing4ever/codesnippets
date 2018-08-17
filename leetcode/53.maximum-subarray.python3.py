@@ -4,8 +4,8 @@ class Solution:
         :type nums: List[int]
         :rtype: int
         """
-        if len(nums) == 0:
-            return 
+        #if len(nums) == 0:
+        #    return 
         max_all = nums[0]
         max_tmp = nums[0]
         for i in range(1, len(nums)):
