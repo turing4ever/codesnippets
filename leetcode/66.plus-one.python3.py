@@ -4,8 +4,18 @@ class Solution:
         :type digits: List[int]
         :rtype: List[int]
         """
-        magic = lambda nums: sum(digit * 10 ** (len(nums) - 1 - i) for i, digit in enumerate(nums))
-        d = magic(digits) 
-        d = d + 1
-        return [int(i) for i in str(d)]
-        
+        ten = 0
+        for i in range(len(digits)):
+            pos = len(digits)-1-i
+            if pos == len(digits)-1:
+                digits[pos] += 1
+            if ten:
+                digits[len(digits)-1-i] += 1
+                ten = 0
+            if digits[len(digits)-1-i] >= 10:
+                ten = 1
+                digits[len(digits)-1-i] -= 10
+        if ten:
+            return [1] + digits 
+        else:
+            return digits
