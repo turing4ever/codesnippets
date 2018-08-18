@@ -7,14 +7,14 @@ class Solution:
         ten = 0
         for i in range(len(digits)):
             pos = len(digits)-1-i
-            if pos == len(digits)-1:
+            if i==0:
                 digits[pos] += 1
             if ten:
-                digits[len(digits)-1-i] += 1
+                digits[pos] += 1
                 ten = 0
-            if digits[len(digits)-1-i] >= 10:
+            if digits[pos] >= 10:
                 ten = 1
-                digits[len(digits)-1-i] -= 10
+                digits[pos] -= 10
         if ten:
             return [1] + digits 
         else:
