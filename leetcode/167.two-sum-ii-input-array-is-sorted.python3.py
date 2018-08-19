@@ -5,8 +5,12 @@ class Solution:
         :type target: int
         :rtype: List[int]
         """
-        d = {}
-        for i in range(len(numbers)):
-            if (target - numbers[i]) in d:
-                return [d[target-numbers[i]]+1, i+1]
-            d[numbers[i]] = i
+        left, right = 0, len(numbers)-1
+        while left < right:
+            s = numbers[left] + numbers[right]
+            if s == target:
+                return [left+1, right+1]
+            elif s < target:
+                left += 1
+            elif s > target:
+                right -= 1
