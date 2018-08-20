@@ -8,6 +8,4 @@ class Solution:
         if len(nums) <= 1 or k == 0:
             return
         k = k % len(nums)
-        tmp = nums[-k:] + nums[:-k]
-        for i in range(len(tmp)):
-            nums[i] = tmp[i]
+        nums[:] = nums[-k:] + nums[:-k]
