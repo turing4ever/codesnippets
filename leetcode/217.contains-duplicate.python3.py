@@ -4,10 +4,7 @@ class Solution:
         :type nums: List[int]
         :rtype: bool
         """
-        d = {}
-        for n in nums:
-            if n not in d:
-                d[n] = 1
-            else:
-                return True        
-        return False
+        if len(set(nums)) < len(nums):
+            return True
+        else:
+            return False
