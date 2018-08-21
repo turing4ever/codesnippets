@@ -5,14 +5,9 @@ class Solution:
         :rtype: int
         """
         max1 = max(nums)
-        n2 = set(nums) - {max1}
-        if n2:
-            max2 = max(n2)
-        else:
-            return max1
-        n3 = set(nums) - {max1, max2}
-        if n3:
-            max3 = max(n3)
+        try:
+            max2 = max([i for i in nums if i!=max1])
+            max3 = max([i for i in nums if i!=max1 and i!=max2])
             return max3
-        else:
+        except:
             return max1
