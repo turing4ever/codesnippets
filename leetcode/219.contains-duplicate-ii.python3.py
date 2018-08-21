@@ -8,12 +8,8 @@ class Solution:
         d = {}
         if len(nums) <2 or k <1:
             return False
-        for i in range(len(nums)):
-            if nums[i] not in d:
-                d[nums[i]] = i
-            else:
-                if i - d[nums[i]] <= k:
-                    return True
-                else:
-                    d[nums[i]] = i
+        for i,v in enumerate(nums):
+            if v in d and i - d[v] <= k:
+                return True
+            d[v] = i
         return False
