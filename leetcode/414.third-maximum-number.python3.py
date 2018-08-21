@@ -5,9 +5,14 @@ class Solution:
         :rtype: int
         """
         max1 = max(nums)
-        try:
-            max2 = max(set(nums) - {max1})
-            max3 = max(set(nums) - {max1, max2})
+        n2 = set(nums) - {max1}
+        if n2:
+            max2 = max(n2)
+        else:
+            return max1
+        n3 = set(nums) - {max1, max2}
+        if n3:
+            max3 = max(n3)
             return max3
-        except:
+        else:
             return max1
