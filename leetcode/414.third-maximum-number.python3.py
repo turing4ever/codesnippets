@@ -6,8 +6,8 @@ class Solution:
         """
         max1 = max(nums)
         try:
-            max2 = max([i for i in nums if i!=max1])
-            max3 = max([i for i in nums if i!=max1 and i!=max2])
+            max2 = max(set(nums) - {max1})
+            max3 = max(set(nums) - {max1, max2})
             return max3
         except:
             return max1
