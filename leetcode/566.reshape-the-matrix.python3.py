@@ -8,9 +8,7 @@ class Solution:
         """
         if len(nums) * len(nums[0]) != r * c:
             return nums
-        a = []
-        for row in nums:
-            a += row
+        a = sum(nums, [])
         ret = []
         for i in range(r):
             ret.append( a[i*c:(i+1)*c] )
