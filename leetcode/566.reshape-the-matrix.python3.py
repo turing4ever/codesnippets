@@ -6,9 +6,7 @@ class Solution:
         :type c: int
         :rtype: List[List[int]]
         """
-        nr = len(nums)
-        nc = len(nums[0])
-        if nr * nc != r * c:
+        if len(nums) * len(nums[0]) != r * c:
             return nums
         a = []
         for row in nums:
