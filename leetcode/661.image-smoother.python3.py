@@ -1,10 +1,12 @@
+from copy import deepcopy
+
 class Solution:
     def imageSmoother(self, M):
         """
         :type M: List[List[int]]
         :rtype: List[List[int]]
         """
-        ret = []
+        ret = deepcopy(M) 
         for i in range(len(M)):
             new_row = []
             for j in range(len(M[i])):
@@ -16,6 +18,5 @@ class Solution:
                     if r >= 0 and r <= len(M)-1 and c >=0 and c<=len(M[r])-1:
                         running_sum += M[r][c]
                         cnt += 1
-                new_row.append(running_sum//cnt)
-            ret.append(new_row)
+                ret[i][j] = running_sum//cnt
         return ret
