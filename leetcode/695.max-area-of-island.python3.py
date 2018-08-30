@@ -6,20 +6,12 @@ class Solution:
         """
         m, n = len(grid), len(grid[0])
         def ones(i, j):
-            if grid[i][j] == 1:
+            if 0<=i<m and 0<=j<n and grid[i][j]:
                 grid[i][j] = 0 
-                yield i,j
-                if j-1 >= 0:
-                    yield from ones(i, j-1)
-                if j+1 < n:
-                    yield from ones(i, j+1)
-                if i-1 >= 0 :
-                    yield from ones(i-1, j)
-                if i+1 < m: 
-                    yield from ones(i+1, j)
-
+                return 1 +  ones(i, j-1) + ones(i, j+1) + ones(i-1, j) + ones(i+1, j)
+            return 0
         maxi = 0
         for i in range(len(grid)):
             for j in range(len(grid[i])):
-                maxi = max(maxi, sum(1 for i in ones(i, j)))
+                maxi = max(maxi, ones(i, j))
         return maxi
