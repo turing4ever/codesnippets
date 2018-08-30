@@ -21,5 +21,5 @@ class Solution:
         maxi = 0
         for i in range(len(grid)):
             for j in range(len(grid[i])):
-                maxi = max(maxi, len(list(ones(i, j))))
+                maxi = max(maxi, sum(1 for i in ones(i, j)))
         return maxi
