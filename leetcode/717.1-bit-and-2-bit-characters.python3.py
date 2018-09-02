@@ -5,12 +5,11 @@ class Solution:
         :rtype: bool
         """
         i = 0
-        last = 1 
         while i < len(bits):
+            if i == len(bits) -1:
+                return True
             if bits[i]:
                 i += 2 
-                last = 2
             else:
                 i += 1
-                last = 1
-        return last == 1
+        return False 
