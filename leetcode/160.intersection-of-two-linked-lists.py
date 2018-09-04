@@ -12,12 +12,9 @@ class Solution(object):
         """
         if not headA or not headB:
             return None
-        A = set()
-        while headA:
-            A.add(headA)
-            headA = headA.next
-        while headB:
-            if headB in A:
-                return headB
-            headB = headB.next
-        return None
+        pa = headA
+        pb = headB
+        while pa != pb:
+            pa = pa.next if pa else headB
+            pb = pb.next if pb else headA 
+        return pa
