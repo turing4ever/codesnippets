@@ -10,14 +10,14 @@ class Solution(object):
         :type head1, head1: ListNode
         :rtype: ListNode
         """
-        if headA is None or headB is None:
+        if not headA or not headB:
             return None
-
-        pa = headA # 2 pointers
-        pb = headB
-
-        while pa is not pb:
-            pa = headB if pa is None else pa.next
-            pb = headA if pb is None else pb.next
-
-        return pa
+        A = set()
+        while headA:
+            A.add(headA)
+            headA = headA.next
+        while headB:
+            if headB in A:
+                return headB
+            headB = headB.next
+        return None
