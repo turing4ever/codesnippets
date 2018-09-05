@@ -10,11 +10,8 @@ class Solution:
         :type head: ListNode
         :rtype: ListNode
         """
-        p = head
         pre = None
-        while p:
-            n = p.next 
-            pre, p.next, p = p, pre, n
-        if not p:
-            head = pre
-        return head
+        while head:
+            n = head.next 
+            pre, head.next, head = head, pre, n
+        return pre 
