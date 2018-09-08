@@ -21,8 +21,5 @@ class Solution:
                 curr.next = l2
                 l2 = l2.next
             curr = curr.next
-        if l1:
-            curr.next = l1
-        if l2:
-            curr.next = l2
+        curr.next = l1 or l2
         return root.next
