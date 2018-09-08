@@ -10,14 +10,19 @@ class Solution:
         :type head: ListNode
         :rtype: bool
         """
-        a = []
-        while head:
-            a.append(head.val)
+        fast = slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        pre = None
+        while slow:
+            tmp = slow.next
+            slow.next = pre
+            slow, pre = tmp, slow
+        while head and pre:
+            if head.val != pre.val:
+                return False
             head = head.next
-        if len(a) <= 1:
-            return True
-        else:
-            for i in range(1, len(a)+1):
-                if a[i-1] != a[-i]:
-                    return False
-            return True
+            pre = pre.next
+        return True
+
