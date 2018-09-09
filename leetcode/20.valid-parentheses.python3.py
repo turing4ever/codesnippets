@@ -12,7 +12,4 @@ class Solution:
             if c in d.keys():
                 if not stack or d[c] != stack.pop():
                     return False
-        if stack:
-            return False
-        else:
-            return True
+        return not stack
