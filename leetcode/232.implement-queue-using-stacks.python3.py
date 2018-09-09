@@ -7,6 +7,11 @@ class MyQueue:
         self.left = []
         self.right = []
         
+    def move(self):
+        if not self.right:
+            while self.left:
+                self.right.append(self.left.pop())
+
 
     def push(self, x):
         """
@@ -14,8 +19,6 @@ class MyQueue:
         :type x: int
         :rtype: void
         """
-        while self.right:
-            self.left.append(self.right.pop())
         self.left.append(x)
         
 
@@ -24,8 +27,7 @@ class MyQueue:
         Removes the element from in front of queue and returns that element.
         :rtype: int
         """
-        while self.left:
-            self.right.append(self.left.pop())
+        self.move()
         return self.right.pop() if self.right else None
         
 
@@ -34,8 +36,7 @@ class MyQueue:
         Get the front element.
         :rtype: int
         """
-        while self.left:
-            self.right.append(self.left.pop())
+        self.move()
         return self.right[-1] if self.right else None
 
     def empty(self):
