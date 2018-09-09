@@ -4,31 +4,15 @@ class Solution:
         :type s: str
         :rtype: bool
         """
-        brackets = []
-        #'(', ')', '{', '}', '[' and ']'
+        d = { "]": "[", "}": "{", ")": "("}
+        stack = []
         for c in s:
-            if c == '(':
-                brackets.append('(')
-            elif c == '[':
-                brackets.append('[')
-            elif c == '{':
-                brackets.append('{')
-            elif c == ')':
-                if brackets and brackets[-1] == '(':
-                    brackets.pop()
-                else:
+            if c in d.values():
+                stack.append(c)
+            if c in d.keys():
+                if not stack or d[c] != stack.pop():
                     return False
-            elif c == ']':
-                if brackets and brackets[-1] == '[':
-                    brackets.pop()
-                else:
-                    return False
-            elif c == '}':
-                if brackets and brackets[-1] == '{':
-                    brackets.pop()
-                else:
-                    return False
-        if len(brackets) > 0:
+        if stack:
             return False
         else:
             return True
