@@ -43,7 +43,7 @@ class MyQueue:
         Returns whether the queue is empty.
         :rtype: bool
         """
-        return len(self.left)==0 and len(self.right)==0
+        return not self.left and not self.right
 
 
 # Your MyQueue object will be instantiated and called as such:
