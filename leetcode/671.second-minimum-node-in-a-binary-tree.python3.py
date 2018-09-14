@@ -12,8 +12,19 @@ class Solution:
         :rtype: int
         """
         if root and root.left and root.right:
-            minis = [x for x in [root.left.val, root.right.val] if x != root.val]
-            minis += [x for x in [self.findSecondMinimumValue(root.left), self.findSecondMinimumValue(root.right)] if x != -1]
+            minis = [] 
+            if root.left.val != root.val:
+                minis.append(root.left.val)
+            else:
+                ret = self.findSecondMinimumValue(root.left)
+                if ret != -1:
+                    minis.append(ret)
+            if root.right.val != root.val:
+                minis.append(root.right.val)
+            else:
+                ret = self.findSecondMinimumValue(root.right)
+                if ret != -1:
+                    minis.append(ret)
             if minis:
                 return min(minis)
             else:
