@@ -5,6 +5,7 @@ class Solution:
         :type k: int
         :rtype: bool
         """
+        from functools import partial
         def _find(root, v):
             if not root:
                 return False
@@ -14,10 +15,10 @@ class Solution:
                 return _find(root.left, v)
             elif v > root.val:
                 return _find(root.right, v)
-
+        bst_find = partial(_find, root)
         def _traverse(root, bst, k):
             if root:
-                if (root.val*2)!=k and _find(bst, k-root.val):
+                if (root.val*2)!=k and bst_find(k-root.val):
                     return True
                 if root.left and _traverse(root.left, bst, k):
                     return True
