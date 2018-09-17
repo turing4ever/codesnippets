@@ -5,12 +5,23 @@ class Solution:
         :type k: int
         :rtype: bool
         """
-        if not root: return False
-        bfs, s = [root], set()
-        for i in bfs:
-            if k - i.val in s: return True
-            s.add(i.val)
-            if i.left: bfs.append(i.left)
-            if i.right: bfs.append(i.right)
-        return False
-        
+        def _find(root, v):
+            if not root:
+                return False
+            if root.val == v:
+                return True
+            elif v < root.val:
+                return _find(root.left, v)
+            elif v > root.val:
+                return _find(root.right, v)
+
+        def _traverse(root, bst, k):
+            if root:
+                if (root.val*2)!=k and _find(bst, k-root.val):
+                    return True
+                if root.left and _traverse(root.left, bst, k):
+                    return True
+                if root.right and _traverse(root.right, bst, k):
+                    return True
+            return False
+        return _traverse(root, root, k)
