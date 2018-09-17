@@ -19,6 +19,6 @@ class Solution:
             elif root.val > R:
                 return self.trimBST(root.left, L, R)
             else:
-                root.left = self.trimBST(root.left, L, R)
-                root.right = self.trimBST(root.right, L, R)
+                root.left = self.trimBST(root.left, L, root.val)
+                root.right = self.trimBST(root.right, root.val, R)
         return root 
