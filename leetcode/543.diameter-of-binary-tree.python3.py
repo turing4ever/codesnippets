@@ -14,21 +14,21 @@ class Solution:
         """
         def height(root):
             if root:
-                if root.left or root.right:
+                if root.left and root.right:
                     return max(height(root.left), height(root.right)) + 1 
+                elif root.left or root.right:
+                    return height(root.left or root.right) + 1
                 else:
                     return 0 
             else:
                 return 0
-        if root:
-            if root.left and root.right:
-                self.diam = max(self.diam, 2 + height(root.left) + height(root.right))
-                return max(self.diam, self.diameterOfBinaryTree(root.left), self.diameterOfBinaryTree(root.right))
-            elif root.left or root.right:
-                child = root.left or root.right
-                self.diam = max(self.diam, 1 + height(child))
-                return max(self.diam, self.diameterOfBinaryTree(child))
-            else:
-                return 0
-        else:
-            return 0
+        def traverse(self, root):
+            if root:
+                if root.left and root.right:
+                    self.diam = max(self.diam, 2 + height(root.left) + height(root.right))
+                elif root.left or root.right:
+                    self.diam = max(self.diam, 1 + height(root.left or root.right))
+                traverse(self, root.left)
+                traverse(self, root.right)
+        traverse(self, root)
+        return self.diam
