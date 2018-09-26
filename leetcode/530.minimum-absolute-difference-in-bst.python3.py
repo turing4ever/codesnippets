@@ -11,20 +11,25 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        def traverse(root):
-            if root.left is not None:
-                yield from traverse(root.left)
-            yield  root.val
-            if root.right is not None:
-                yield from traverse(root.right)
-        diff = None 
-        pre  = None
-        for i in traverse(root):
-            # print(i, pre, diff)
-            if pre is not None: 
-                if diff is None:
-                    diff = abs(pre - i)
+        def leftmax(node):
+            if node:
+                if node.right:
+                    return leftmax(node.right)
                 else:
-                    diff = min(diff, abs(pre-i))
-            pre = i
-        return diff
+                    return node.val
+        def rightmin(node):
+            if node:
+                if node.left:
+                    return rightmin(node.left)
+                else:
+                    return node.val
+        def mindiff(root, diff):
+            if root:
+                if root.left:
+                   diff = min(diff, abs(root.val - leftmax(root.left)))
+                if root.right:
+                    diff = min(diff, abs(root.val - rightmin(root.right)))
+                diff = min(mindiff(root.left, diff), mindiff(root.right, diff))
+            return diff
+        diff = float('inf')
+        return mindiff(root, diff) 
