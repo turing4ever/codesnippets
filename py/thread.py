@@ -3,9 +3,10 @@ import time
 
 def worker(*args):
     time.sleep(1)
-    print(f"{threading.current_thread()}, {args}")
+    tid = threading.current_thread()
+    print(f"{tid}, {args}")
 
-tasks = list(range(10))
+tasks = list(range(1))
 threads = []
 for i in range(4):
     t = threading.Thread(target=worker, args=(tasks[4*i: 4*(i+1)],))
