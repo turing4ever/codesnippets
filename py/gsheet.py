@@ -5,7 +5,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
-credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_name('testgspread-2e1000ac98bd.json', scope)
 gc = gspread.authorize(credentials)
 
 # Open a worksheet from spreadsheet with one shot
