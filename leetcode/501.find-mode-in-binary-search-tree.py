@@ -19,10 +19,5 @@ class Solution:
                 traverse(root.left, counter)
                 traverse(root.right, counter)
         traverse(root, cnt)
-        top = cnt.most_common()
-        if top:
-            top_freq = top[0][1]
-            return [e[0] for e in cnt.most_common() if e[1] == top_freq]
-        else:
-            return  []
-               
+        max_cnt = max(cnt.itervalues()) if cnt else 0 
+        return [k for k, v in cnt.iteritems() if v == max_cnt] 
