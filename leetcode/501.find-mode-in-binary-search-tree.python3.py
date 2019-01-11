@@ -22,22 +22,28 @@ class Solution:
                     yield from inorder(node.right)
         
         out = []
-        max_num = 0
-        cur_num = 0
-        cur_v = -1
+        max_mode = 0
+        mode = 0
+        prev_val = None
         for v in inorder(root):
-            if cur_v != v:
-                if cur_num == max_num:
-                    out.append(cur_v)
-                elif cur_num > max_num:
-                    out = [cur_v]
-                    max_num = cur_num
-                cur_v = v
-                cur_num = 0
-            cur_num += 1
-        else:
-            if cur_num == max_num:
-                out.append(cur_v)
-            elif cur_num > max_num:
-                out = [cur_v]
+            if prev_val is None or v != prev_val:
+                prev_val = v
+                mode = 1
+            else:
+                mode += 1
+            if max_mode < mode:
+                max_mode = mode
+        print(max_mode)
+        mode = 0
+        prev_val = None
+        for w in inorder(root):
+            if prev_val is None or w != prev_val:
+                prev_val = w 
+                mode = 1
+            else:
+                mode += 1
+            print(mode)
+            if mode == max_mode:
+                out.append(w)
+
         return out
