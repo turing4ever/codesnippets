@@ -1,4 +1,4 @@
-# Definition for a binary tree node.
+#i Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -33,7 +33,6 @@ class Solution:
                 mode += 1
             if max_mode < mode:
                 max_mode = mode
-        print(max_mode)
         mode = 0
         prev_val = None
         for w in inorder(root):
@@ -42,8 +41,6 @@ class Solution:
                 mode = 1
             else:
                 mode += 1
-            print(mode)
             if mode == max_mode:
                 out.append(w)
-
         return out
