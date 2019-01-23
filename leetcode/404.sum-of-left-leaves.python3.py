@@ -11,15 +11,10 @@ class Solution:
         :type root: TreeNode
         :rtype: int
         """
-        def leaf(node, side=None):
-            if node:
-                if node.left is None and node.right is None:
-                    if side == 'left':
-                        return node.val
-                    else:
-                        return 0
-                else:
-                    return leaf(node.left, 'left') + leaf(node.right, 'right')
-            else:
+        def leaf(node):
+            if not node:
                 return 0
+            if node.left and not node.left.left and not node.left.right:
+                return node.left.val + leaf(node.right)
+            return leaf(node.left) + leaf(node.right)
         return leaf(root)
