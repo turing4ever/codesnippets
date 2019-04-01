@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -x
+
+if [ -z $1 ]; then
+    echo 'Please input macro name'
+    exit 1
+fi
+
+old_m=$1
+echo "Old macro: $old_m"
+
+for folder in $(grep -wlr $old_m config/domains | cut -f1-3 -d/ | sort | uniq )
+do
+    
+    if [ -f "$folder/macros.yaml" ]; then 
+        m_file="$folder/macros.yaml"
+    elif [ -f "$folder/macros/layouts.yaml" ]; then 
+        m_file="$folder/macros/layouts.yaml"
+    :'elif [ -f "$folder/macros/presentation_settings.yaml" ]; then 
+        m_file="$folder/macros/presentation_settings.yaml"
+    elif [ -f "$folder/macros/settings.yaml" ]; then 
+        m_file="$folder/macros/settings.yaml"
+    elif [ -f "$folder/macros/presentation.yaml" ]; then 
+        m_file="$folder/macros/presentation.yaml"
+    '
+    else
+        m_file='NO_M_FILE'
+    fi
+    echo "found: $m_file"
+    line=$(grep -n "^regions:" $m_file  | cut -f1 -d:)
+    if [ -z $line ]; then
+        line=1
+        #gsed -ie "${line}apresentation_settings:\n  macros:" $m_file 
+        gsed -i'' -e "${line}aregions:\n  macros:" $m_file 
+        line=$(($line + 2)) 
+        gsed -i'' -e "${line}r t" $m_file 
+        #len_file=$(wc -l t | grep -o '[0-9]\+')
+        #line=$(($line + $len_file)) 
+        # gsed -i'' -e "${line}a\  named_expansions: true" $m_file 
+
+    else
+        line=$(($line + 1)) 
+        gsed -i'' -e "${line}r t" $m_file 
+    fi
+done
+
+set +x

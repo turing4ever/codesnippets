@@ -1,0 +1,20 @@
+#!/bin/bash
+set -x
+
+if [ -z $1 ]; then
+    echo 'Please input macro name'
+    exit 1
+fi
+
+old_m=$1
+echo "Old macro: $old_m"
+
+for fname in $(echo $old_m | xargs -I{} grep -wlr {} config/domains)
+do
+    #suffix=$(echo $fname | cut -f3 -d/ | tr a-z A-Z | tr . _) 
+    #new_m="$1_$suffix"
+    #gsed -i'' "s/\b$old_m\b/$new_m/g" $fname
+    gsed -i'' -E 's/^( *)restricted_settings: DEFAULT/\1restricted_settings:\n\1  empty: settings/g' $fname
+done
+
+set +x
