@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -x
+set -e  # stop at first error
+
+stage="/Users/michael/Documents/pycharm/OpenMail/search"
+prod="/Users/michael/Documents/OpenMail/search"
+
+cd $stage && git pull && cd $prod && git pull
+
+cd $stage && rm -rf config/localpub/stage && cd $prod && rm -rf config/localpub/prod 
+
+cmd1="cd $stage && make format && python deploy_configs.py --publish=local --env=stage"
+
+cmd2="cd $prod && python deploy_configs.py --publish=local --env=prod"
+
+#eval $cmd1
+#eval $cmd1
+cd $stage && python search_configs.py validate 
+
+echo -e "$cmd1\n$cmd2" | parallel  && diff -r -I 'macro_name' "$stage/config/localpub/stage/"  "$prod/config/localpub/prod/" > diff.txt
+
+wc -l diff.txt
+set +x
