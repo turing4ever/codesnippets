@@ -3,20 +3,19 @@
 set -x
 set -e  # stop at first error
 
-stage="/Users/michael/Documents/pycharm/OpenMail/search"
-prod="/Users/michael/Documents/OpenMail/search"
+stage="$HOME/Documents/OpenMail/search"
+prod="$HOME/Documents/git/OpenMail/search"
 
-cd $stage && git pull && cd $prod && git pull
+#cd $stage && git pull && cd $prod && git pull
 
 cd $stage && rm -rf config/localpub/stage && cd $prod && rm -rf config/localpub/prod 
 
-cmd1="cd $stage && make format && python deploy_configs.py --publish=local --env=stage"
-
-cmd2="cd $prod && python deploy_configs.py --publish=local --env=prod"
-
 #eval $cmd1
 #eval $cmd1
-cd $stage && python search_configs.py validate 
+#cd $stage && python tools/search_configs.py validate 
+
+cmd1="cd $stage && make format && python $stage/tools/search_configs.py deploy --publish=local --env=stage"
+cmd2="cd $prod && python $prod/tools/search_configs.py deploy --publish=local --env=prod"
 
 echo -e "$cmd1\n$cmd2" | parallel  && diff -r -I 'macro_name' "$stage/config/localpub/stage/"  "$prod/config/localpub/prod/" > diff.txt
 
