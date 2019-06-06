@@ -2,13 +2,13 @@
 
 # Prerequisites: git, jq, curl
 # Warnings:
-# 1. Has to be run within folder OpenMail/search
-# 2. Only works within company network or VPN
+# 1. Has to be run within git folder
+# 2. Only works within the network where jenkins server is reachable 
 # 3. Once the build is triggered, killing this script won't cancel it
 # Usage:
 # 1. uat all: deploy to all domains. Lower case 'all` only.
-# 2. uat www.gopher.com: deploy to www.gopher.com
-# 3. uat "www.gopher.com www.info.com": deploy to www.gohper.com and www.info.com 
+# 2. uat www.domain.com: deploy to www.domain.com
+# 3. uat "www.domain1.com www.domain2.com": deploy to www.gohper.com and www.domain2.com 
 # 4. uat: won't work without any explicit domain target 
 
 # Recommended set up:
