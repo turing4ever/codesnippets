@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Prerequisites: git, jq, curl
+# Warnings:
+# 1. Has to be run within folder OpenMail/search
+# 2. Only works within company network or VPN
+# 3. Once the build is triggered, killing this script won't cancel it
+# Usage:
+# 1. uat all: deploy to all domains. Lower case 'all` only.
+# 2. uat www.gopher.com: deploy to www.gopher.com
+# 3. uat "www.gopher.com www.info.com": deploy to www.gohper.com and www.info.com 
+# 4. uat: won't work without any explicit domain target 
+
+# Recommended set up:
+# cd ~/
+# mkdir bin
+# download and save the file I shared in the channel to ~/bin/uat
+# chmod +x ~/bin/uat
+## add ~/bin into PATH by adding this line into your ~/.bashrc (on ec2) , ~/.bash_profile (on Mac)
+# export PATH=$PATH:$HOME/bin
+
+########## Please find and fill in your Jenkins user id and api token ########
+USER_ID="YOUR_USER_ID"
+API_TOKEN="YOUR_TOKEN"
+##########  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ ######################################
+
+JENKINS_URL="https://JENKINS_SERVER_URL"
+JOBNAME="Deploy_Configs_UAT"
+RED='\033[0;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+SLEEP_SEC=5
+
+if [ -z "$1" ]; then
+   echo "Usage: uat [all | domain | "domain1 domain2 domain3"]"
+   echo "Please specify domain target" 
+   exit 0
+else
+    DOMAINS="$1"
+    if [ ! "$DOMAINS" = "all" ]; then
+        IFS=' ' read -ra array <<< "$DOMAINS"
+        for d in  "${array[@]}"
+        do 
+            if [ ! -d "config/domains/$d" ]; then 
+                echo "$d doesn't exist, please check your spellings"
+                exit 1
+            fi
+        done
+    fi
+fi
+
+ME=$(git config user.email)
+GITLOG=$(git log -1 --pretty=format:"SHA=%H, Author=%an, CM=%s" --author $ME)
+SHA=$(git log -1 --pretty=format:"%H" --author $ME)
+
+JSON_STRING=$( jq -n -r \
+                  --arg sha "$SHA" \
+                  --arg dn "$DOMAINS" \
+                  '{"parameter":[{"name":"SHA1","value": $sha}, {"name":"DOMAINS", "value": $dn}]}')
+CRUMB=$(curl -s -u $USER_ID:$API_TOKEN $JENKINS_URL/crumbIssuer/api/json | jq -r '.crumb')
+
+NEXT_BUILD_ID=$(curl -s -u $USER_ID:$API_TOKEN "$JENKINS_URL/job/$JOBNAME/api/json" | jq -r '.nextBuildNumber') 
+
+curl -X POST "$JENKINS_URL/job/$JOBNAME/build" \
+  --user $USER_ID:$API_TOKEN \
+  -H "Jenkins-Crumb:$CRUMB" \
+  --data-urlencode "json=$JSON_STRING"
+
+echo -e "${YELLOW}Deploying to UAT:${NC} $GITLOG"
+echo -e "\tNew Build created."
+
+JOB_STATUS=$(curl -s -u $USER_ID:$API_TOKEN "$JENKINS_URL/job/$JOBNAME/$NEXT_BUILD_ID/api/json") 
+if [[ $JOB_STATUS =~ "Not Found" ]]; then
+  echo -ne "\tNew build probably in queue, waiting..."
+else
+  BUILDING=$(echo $JOB_STATUS | jq -r '.building')
+  RESULT=$(echo $JOB_STATUS | jq -r '.result')
+fi
+
+while [[ $JOB_STATUS =~ "Not Found" ]]
+    do 
+        JOB_STATUS=$(curl -s -u $USER_ID:$API_TOKEN "$JENKINS_URL/job/$JOBNAME/$NEXT_BUILD_ID/api/json") 
+        if [[ $JOB_STATUS =~ "Not Found" ]]; then
+            sleep $SLEEP_SEC
+            echo -n -e "${GREEN}.${NC}" 
+        else
+          BUILDING=$(echo $JOB_STATUS | jq -r '.building')
+          RESULT=$(echo $JOB_STATUS | jq -r '.result')
+        fi
+done
+
+echo -ne "\tBuild started, waiting for it to finish."
+while [ "$BUILDING" = "true" ]
+    do
+        JOB_STATUS=$(curl -s -u $USER_ID:$API_TOKEN "$JENKINS_URL/job/$JOBNAME/$NEXT_BUILD_ID/api/json") 
+        BUILDING=$(echo $JOB_STATUS | jq -r '.building')
+        RESULT=$(echo $JOB_STATUS | jq -r '.result')
+        echo -ne "${GREEN}.${NC}" 
+        sleep $SLEEP_SEC
+done
+
+echo
+if [ "$RESULT" = "SUCCESS" ]; then
+    echo -e "${YELLOW}BUILD Status${NC}: ${GREEN}$RESULT${NC}"
+else
+    echo -e "${YELLOW}BUILD Status${NC}: ${RED}$RESULT${NC}"
+f
